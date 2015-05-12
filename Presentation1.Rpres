@@ -1,0 +1,52 @@
+Simple Interactive Investment Return Calculator
+========================================================
+author: Fred Seymour
+date: `r date()`
+
+OVERVIEW
+========================================================
+
+The magnitude of the impact of **compounding interest** is often underestimated.
+Some very simple calculations can show this. Given:
+
+- A starting investment value: **pv**
+- An annual rate of return: **int**
+- A number of years: **yrs**   
+   
+The future value **fv** is given by:   
+   
+**$\mathit{fv} = \mathit{pv} * (1 + \mathit{int})^\mathit{yrs}$**
+
+R-code for Future Value Plot
+========================================================
+The r-code below sets up the data for a plot showing the future value impact.
+```{r}
+int <- c(.05,.10, .15, .20); yrs <- 0:20
+pv <- 100; library(foreach)
+fv <- foreach(i = int, .combine=cbind) %do% {
+    pv * (1 + i)^yrs
+}
+max(fv) 
+```
+With 20% interest over 20 years, your $100 investment would grow to almost $4000!
+
+Future Value Plot for various interest rates
+========================================================
+
+```{r, echo=FALSE}
+plot(yrs, fv[,4], type='l', col="red", lwd=2, ylim=c(0,4000), ylab="fv", main="Future Values")
+lines(yrs, fv[,3], col="green", lwd=2)
+lines(yrs, fv[,2], col="blue", lwd=2)
+lines(yrs, fv[,1], col="black", lwd=2)
+legend("topleft",paste0(as.character(int*100), "%"), col=c("black","blue","green","red"), lwd=2)
+```
+Try it out ...
+===
+### A simple calculator can show you this impact
+### Please try it out interactively at : 
+http://fhseymour.shinyapps.io/Project
+   
+### Thank you!
+
+
+
